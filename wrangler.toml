@@ -1,0 +1,5 @@
+name = "froken"
+compatibility_date = "2026-08-15"
+
+[assets]
+directory = "./_site"

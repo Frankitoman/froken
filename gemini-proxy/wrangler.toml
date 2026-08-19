@@ -1,0 +1,13 @@
+name = "froken-gemini-proxy"
+main = "src/index.js"
+compatibility_date = "2026-08-15"
+
+# CORS: FRØKEN vive en Cloudflare (Worker con static assets). Si más
+# adelante se agrega un dominio propio, sumarlo acá separado por coma
+# (sin espacios extra ni barra al final) y volver a correr `wrangler deploy`.
+[vars]
+ALLOWED_ORIGIN = "https://froken.francojmansilla.workers.dev"
+
+# La clave de Gemini NO va acá (nunca a un archivo versionado).
+# Se configura como secret con:
+#   wrangler secret put GEMINI_API_KEY
