@@ -29,43 +29,6 @@
     });
   }
 
-  /* ---------- scroll reveal (once) ---------- */
-  var revealEls = document.querySelectorAll('[data-reveal]');
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
-  }
-
-  /* ---------- images fade in/out both ways as they cross the viewport ---------- */
-  function initPhotoFade(root) {
-    var scope = root || document;
-    var els = scope.querySelectorAll('.fade-img:not([data-fade-bound])');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('is-visible'); });
-      return;
-    }
-    var io2 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting);
-      });
-    }, { threshold: 0.08, rootMargin: '-6% 0px -6% 0px' });
-    els.forEach(function (el) {
-      el.setAttribute('data-fade-bound', '1');
-      io2.observe(el);
-    });
-  }
-  window.initPhotoFade = initPhotoFade;
-  document.addEventListener('DOMContentLoaded', function () { initPhotoFade(document); });
-
   /* ---------- category quick-filter links scroll to shop + set filter ---------- */
   document.querySelectorAll('[data-goto-filter]').forEach(function (el) {
     el.addEventListener('click', function (e) {

@@ -9,8 +9,8 @@
 
   var DICT = {
     en: {
-      meta_title: 'FRØKEN — Considered womenswear',
-      meta_description: 'FRØKEN is a Copenhagen label for considered, minimal womenswear — quality fabrics, quiet detail, made to last beyond the season.',
+      meta_title: 'FRØKEN, considered womenswear',
+      meta_description: 'FRØKEN is a Copenhagen label for considered, minimal womenswear: quality fabrics, quiet detail, made to last beyond the season.',
 
       nav_shop: 'Shop',
       nav_outerwear: 'Outerwear',
@@ -29,6 +29,8 @@
       hero_cta: 'Shop the collection',
       hero_cta_secondary: 'Our philosophy',
 
+      tension_line: 'Most clothing is worn a handful of times before it is replaced.',
+
       cat_heading_eyebrow: 'Shop by category',
       cat_heading: 'Five categories. No noise.',
       cat_outerwear_desc: 'Coats and jackets built to be worn for years.',
@@ -36,6 +38,22 @@
       cat_dresses_desc: 'Silk, linen and knit dresses for every register.',
       cat_tops_desc: 'Blouses, shirts and fine-knit layers.',
       cat_accessories_desc: 'Leather goods and the finishing details.',
+      range_note: 'Twenty pieces. That is the whole shop.',
+      range_note_cta: 'See it all',
+
+      materials_eyebrow: 'Held, not just seen',
+      materials_heading: 'Cloth, up close.',
+      materials_lead: 'Rest your cursor on a swatch. Hold still and it tells you what it is.',
+      materials_1_name: 'Wool Wrap Coat',
+      materials_1_fact: 'Camel wool-blend, brushed for a soft hand and warmth without weight.',
+      materials_2_name: 'Cashmere-Blend Vest',
+      materials_2_fact: 'Stone cashmere-blend knit, spun to keep its shape wear after wear.',
+      materials_3_name: 'Silk Slip Dress',
+      materials_3_fact: 'Bone silk, bias-cut so the weave catches the light as it falls.',
+      materials_4_name: 'Poplin Shirt',
+      materials_4_fact: 'Crisp cotton poplin, woven tight enough to hold a sharp collar.',
+      materials_5_name: 'Leather Tote',
+      materials_5_fact: 'Full-grain black leather, finished by hand and built to darken with age.',
 
       products_eyebrow: 'The Collection',
       products_heading: 'All products',
@@ -54,7 +72,7 @@
       about_eyebrow: 'Our philosophy',
       about_heading: 'Fewer, better things.',
       about_p1: 'FRØKEN was founded in Copenhagen on a simple idea: clothing should be considered before it is bought, and worn long after the season it was made for.',
-      about_p2: 'We work with a small number of mills across Europe, choosing natural fibres and finishes that age well. Every piece is designed to be worn on its own terms — no logos, no noise, nothing that needs explaining.',
+      about_p2: 'We work with a small number of mills across Europe, choosing natural fibres and finishes that age well. Every piece is designed to be worn on its own terms: no logos, no noise, nothing that needs explaining.',
       about_stat_1: '5',
       about_stat_1_label: 'Categories, kept tight',
       about_stat_2: '20',
@@ -84,7 +102,7 @@
 
       feedback_eyebrow: 'Help us improve',
       feedback_title: 'Report an issue or leave feedback',
-      feedback_lead: 'Notice something wrong, or have a suggestion for the site? Tell us directly — it goes straight to our inbox.',
+      feedback_lead: 'Notice something wrong, or have a suggestion for the site? Tell us directly, it goes straight to our inbox.',
       feedback_placeholder: 'What did you notice?',
       feedback_email_placeholder: 'Your email (optional)',
       feedback_submit: 'Send',
@@ -110,8 +128,8 @@
     },
 
     da: {
-      meta_title: 'FRØKEN — Gennemtænkt dametøj',
-      meta_description: 'FRØKEN er et københavnsk mærke for gennemtænkt, minimalistisk dametøj — kvalitetsstoffer, stille detaljer, lavet til at holde længere end sæsonen.',
+      meta_title: 'FRØKEN, gennemtænkt dametøj',
+      meta_description: 'FRØKEN er et københavnsk mærke for gennemtænkt, minimalistisk dametøj: kvalitetsstoffer, stille detaljer, lavet til at holde længere end sæsonen.',
 
       nav_shop: 'Shop',
       nav_outerwear: 'Yderbeklædning',
@@ -130,6 +148,8 @@
       hero_cta: 'Se kollektionen',
       hero_cta_secondary: 'Vores filosofi',
 
+      tension_line: 'Det meste tøj bæres nogle få gange, før det udskiftes.',
+
       cat_heading_eyebrow: 'Shop efter kategori',
       cat_heading: 'Fem kategorier. Ingen støj.',
       cat_outerwear_desc: 'Frakker og jakker bygget til at holde i årevis.',
@@ -137,6 +157,22 @@
       cat_dresses_desc: 'Kjoler i silke, hør og strik til enhver anledning.',
       cat_tops_desc: 'Bluser, skjorter og finstrikkede lag.',
       cat_accessories_desc: 'Læderprodukter og de sidste detaljer.',
+      range_note: 'Tyve stykker. Det er hele butikken.',
+      range_note_cta: 'Se det hele',
+
+      materials_eyebrow: 'Følt, ikke kun set',
+      materials_heading: 'Stof, tæt på.',
+      materials_lead: 'Hold musen stille over en prøve. Bliv stående, og den fortæller dig, hvad den er.',
+      materials_1_name: 'Uld-wrapfrakke',
+      materials_1_fact: 'Camel-farvet uldblanding, børstet for en blød overflade og varme uden vægt.',
+      materials_2_name: 'Cashmere-blend vest',
+      materials_2_fact: 'Strikket cashmere-blanding i stenfarve, spundet til at holde formen brug efter brug.',
+      materials_3_name: 'Silke-slipkjole',
+      materials_3_fact: 'Hvid silke, skråskåret så vævningen fanger lyset, når den falder.',
+      materials_4_name: 'Poplinskjorte',
+      materials_4_fact: 'Skarp bomuldspoplin, vævet tæt nok til at holde en skarp krave.',
+      materials_5_name: 'Læder-tote',
+      materials_5_fact: 'Fuldkorns sort læder, håndfærdiggjort og bygget til at mørkne med tiden.',
 
       products_eyebrow: 'Kollektionen',
       products_heading: 'Alle produkter',
@@ -155,7 +191,7 @@
       about_eyebrow: 'Vores filosofi',
       about_heading: 'Færre, bedre ting.',
       about_p1: 'FRØKEN blev grundlagt i København med en simpel idé: tøj skal overvejes, før det købes, og bæres længe efter den sæson, det blev lavet til.',
-      about_p2: 'Vi arbejder med et lille antal væverier i Europa og vælger naturlige fibre og finish, der ældes smukt. Hvert stykke er designet til at stå alene — ingen logoer, ingen støj, intet der kræver en forklaring.',
+      about_p2: 'Vi arbejder med et lille antal væverier i Europa og vælger naturlige fibre og finish, der ældes smukt. Hvert stykke er designet til at stå alene: ingen logoer, ingen støj, intet der kræver en forklaring.',
       about_stat_1: '5',
       about_stat_1_label: 'Kategorier, holdt stramme',
       about_stat_2: '20',
@@ -185,7 +221,7 @@
 
       feedback_eyebrow: 'Hjælp os med at blive bedre',
       feedback_title: 'Rapportér en fejl eller giv feedback',
-      feedback_lead: 'Har du bemærket noget, der ikke virker, eller har du et forslag? Fortæl os det direkte — det lander i vores indbakke.',
+      feedback_lead: 'Har du bemærket noget, der ikke virker, eller har du et forslag? Fortæl os det direkte, det lander i vores indbakke.',
       feedback_placeholder: 'Hvad bemærkede du?',
       feedback_email_placeholder: 'Din email (valgfrit)',
       feedback_submit: 'Send',

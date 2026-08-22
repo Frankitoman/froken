@@ -4,3 +4,6 @@ _site/
 Thumbs.db
 node_modules/
 gen_log.txt
+lab/
+package.json
+package-lock.json
