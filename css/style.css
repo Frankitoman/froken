@@ -55,8 +55,13 @@ button { font-family: inherit; cursor: pointer; background: none; border: none; 
 dl, dd { margin: 0; }
 
 h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
-.sc-display { color: var(--black); }
-.sc-body { color: var(--stone); }
+/* Token, not a literal: a hardcoded var(--black) here would win over any
+   local --sc-ink override on a dark subtree (the hero, the peak, the close),
+   because an element's own declared colour always beats an inherited one,
+   however specific the ancestor rule is. Reading the token keeps headings in
+   sync with whichever ground they are actually sitting on. */
+.sc-display { color: var(--sc-ink); }
+.sc-body { color: var(--sc-ink-soft); }
 
 .fr-eyebrow {
   display: inline-block;
@@ -306,7 +311,15 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
    ACT 5 · RANGE — the categories travel sideways (pan), then the real,
    filterable shop grid. Breadth first, then the actual inventory.
    ========================================================================== */
-.fr-range-rail { display: flex; gap: var(--sc-4); }
+/* The stage paints its own opaque ground instead of leaning on drift: drift
+   interpolates the PAGE background, and while it is still catching up from
+   the black peak behind this act, dark heading text over a not-yet-light
+   page reads as broken. An opaque fill here is correct the instant the
+   stage appears, no matter where the page-level drift currently sits.
+   Centering (rather than top-aligning) also keeps the rail clear of the
+   fixed nav bar, which otherwise crops the top edge of the first cards. */
+.fr-range [data-sc-stage] { display: flex; align-items: center; background: var(--bone); }
+.fr-range-rail { display: flex; gap: var(--sc-4); padding-left: var(--sc-gutter); }
 .fr-range-rail__lead { flex: 0 0 min(28rem, 70vw); display: flex; flex-direction: column; justify-content: center; padding-right: var(--sc-6); }
 .fr-range-rail__lead h2 { font-size: var(--sc-t-3xl); }
 .fr-range-rail__lead p { color: var(--stone); margin-top: var(--sc-3); }
@@ -364,7 +377,11 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
    ACT 6 · COMMITMENT — close. Pin, spotlight, magnetic direct links. Contact,
    feedback and the footer live inside the stage, so nothing trails off it.
    ========================================================================== */
-.fr-close [data-sc-stage] { display: flex; align-items: center; background: var(--black); }
+/* Padding reserves room for the fixed nav before centering: align-items alone
+   centers within the full 100vh stage, which is fine only while the content
+   is short enough to fit under the bar. This block is not, at most sizes, so
+   plain centering let the nav crop the eyebrow and the top of the heading. */
+.fr-close { display: flex; align-items: center; background: var(--black); padding-block: 6.5rem 2rem; }
 .fr-close__inner { width: 100%; max-width: var(--container); margin: 0 auto; padding-inline: var(--sc-gutter); display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--sc-8); color: var(--paper); }
 .fr-close .fr-eyebrow { color: var(--camel-light); }
 .fr-close__text h2 { color: var(--paper); font-size: var(--sc-t-3xl); margin-bottom: var(--sc-4); }
