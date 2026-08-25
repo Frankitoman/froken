@@ -89,24 +89,37 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
   border: 1px solid transparent;
   transition: transform var(--sc-d-base) var(--sc-ease-out), background var(--sc-d-base) ease, border-color var(--sc-d-base) ease, color var(--sc-d-base) ease;
 }
-.fr-btn:active { transform: scale(0.97); }
-.fr-btn--dark { background: var(--black); color: var(--paper); }
-.fr-btn--dark:hover { transform: translateY(-2px); background: #2b261d; }
+/* Press feedback is its own, faster transition: a button held down should
+   react in ~120ms, not ride the same 240ms curve as the hover lift. */
+.fr-btn:active { transform: scale(0.97); transition-duration: var(--sc-d-fast); }
 .fr-btn--dark:disabled { opacity: 0.4; cursor: default; transform: none; }
+.fr-btn--dark:disabled:active { transform: none; }
 .fr-btn--ghost-dark { border-color: var(--line-strong); color: var(--ink); }
-.fr-btn--ghost-dark:hover { border-color: var(--black); transform: translateY(-2px); }
 .fr-btn--light { background: var(--paper); color: var(--black); }
-.fr-btn--light:hover { transform: translateY(-2px); }
 .fr-btn--ghost-light { border-color: rgba(255,253,248,0.5); color: var(--paper); }
-.fr-btn--ghost-light:hover { border-color: var(--paper); transform: translateY(-2px); }
-.is-added { background: var(--camel) !important; }
+.is-added { background: var(--camel) !important; animation: addConfirm 260ms var(--sc-ease-out); }
+@keyframes addConfirm {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .fr-btn--dark:hover { transform: translateY(-2px); background: #2b261d; }
+  .fr-btn--ghost-dark:hover { border-color: var(--black); transform: translateY(-2px); }
+  .fr-btn--light:hover { transform: translateY(-2px); }
+  .fr-btn--ghost-light:hover { border-color: var(--paper); transform: translateY(-2px); }
+}
+.fr-btn--dark { background: var(--black); color: var(--paper); }
 /* legacy aliases: cart.js / chat.js generated markup still writes these */
 .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.9rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 1px; border: 1px solid transparent; transition: transform var(--sc-d-base) var(--sc-ease-out), background var(--sc-d-base) ease, border-color var(--sc-d-base) ease, color var(--sc-d-base) ease; }
+.btn:active { transform: scale(0.97); transition-duration: var(--sc-d-fast); }
 .btn--dark { background: var(--black); color: var(--paper); }
-.btn--dark:hover { transform: translateY(-2px); background: #2b261d; }
 .btn--dark:disabled { opacity: 0.4; cursor: default; transform: none; }
 .btn--ghost-dark { border-color: var(--line-strong); color: var(--ink); }
-.btn--ghost-dark:hover { border-color: var(--black); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--dark:hover { transform: translateY(-2px); background: #2b261d; }
+  .btn--ghost-dark:hover { border-color: var(--black); transform: translateY(-2px); }
+}
 
 /* ==========================================================================
    NAV — the catalog's index. Fixed, minimal, and it jumps.
@@ -116,7 +129,7 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
   top: 0; left: 0; right: 0;
   z-index: var(--sc-z-chrome);
   padding: 1.5rem 0;
-  transition: padding 0.35s var(--ease), background 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  transition: padding var(--sc-d-slow) var(--sc-ease-out), background var(--sc-d-slow) var(--sc-ease-out), box-shadow var(--sc-d-slow) var(--sc-ease-out);
 }
 .nav.is-scrolled {
   padding: 1rem 0;
@@ -149,22 +162,31 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
   position: relative;
   padding-bottom: 3px;
 }
+/* transform, not width: a width transition triggers layout on every frame.
+   Drawing the underline full-width and scaling it from 0 is the same visual
+   result off a single composited property. */
 .nav__links a::after {
   content: "";
   position: absolute;
   left: 0; bottom: 0;
-  width: 0; height: 1px;
+  width: 100%; height: 1px;
   background: var(--camel);
-  transition: width 0.3s var(--ease);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--sc-d-base) var(--sc-ease-in-out);
 }
-.nav__links a:hover::after { width: 100%; }
+@media (hover: hover) and (pointer: fine) {
+  .nav__links a:hover::after { transform: scaleX(1); }
+}
 
 .nav__actions { display: flex; align-items: center; gap: 1.3rem; }
 .nav__lang { display: flex; gap: 0.4rem; border: 1px solid var(--line); border-radius: 20px; padding: 3px; }
-.nav__lang-btn { font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.3rem 0.65rem; border-radius: 16px; color: var(--stone); transition: background 0.25s ease, color 0.25s ease; }
+.nav__lang-btn { font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.3rem 0.65rem; border-radius: 16px; color: var(--stone); transition: background 0.25s ease, color 0.25s ease, transform var(--sc-d-fast) var(--sc-ease-out); }
 .nav__lang-btn.is-active { background: var(--black); color: var(--paper); }
+.nav__lang-btn:active { transform: scale(0.94); }
 
-.nav__cart-btn { position: relative; color: var(--ink); display: flex; }
+.nav__cart-btn { position: relative; color: var(--ink); display: flex; transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+.nav__cart-btn:active { transform: scale(0.9); }
 .cart-count {
   position: absolute; top: -6px; right: -8px;
   background: var(--camel); color: var(--paper);
@@ -172,16 +194,38 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
   display: none; align-items: center; justify-content: center; padding: 0 3px;
 }
 .cart-count.is-visible { display: flex; }
+/* Feedback that the add landed, not decoration: fires once, off transform
+   and opacity, retriggered from JS by toggling the class (see cart.js). */
+.cart-count.is-bump { animation: cartCountBump 320ms var(--sc-ease-out); }
+@keyframes cartCountBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.45); }
+  100% { transform: scale(1); }
+}
 
-.nav__burger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
-.nav__burger span { width: 22px; height: 1px; background: var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; }
+.nav__burger { display: none; flex-direction: column; gap: 5px; padding: 4px; transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+.nav__burger:active { transform: scale(0.9); }
+.nav__burger span { width: 22px; height: 1px; background: var(--ink); transition: transform var(--sc-d-base) var(--sc-ease-in-out), opacity var(--sc-d-base) var(--sc-ease-in-out); }
 .nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-.nav__mobile { display: none; flex-direction: column; padding: 1rem 2rem 1.6rem; gap: 1rem; background: rgba(246, 241, 231, 0.98); border-top: 1px solid var(--line); }
+/* Absolutely positioned (against the fixed header) instead of display:none,
+   so it never has to fight over animating `display`: it just sits off-flow,
+   invisible and inert, and opacity/transform/visibility do the rest. Same
+   recipe as the cart drawer and chat panel below. */
+.nav__mobile {
+  position: absolute; top: 100%; left: 0; right: 0;
+  display: flex; flex-direction: column; padding: 1rem 2rem 1.6rem; gap: 1rem;
+  background: rgba(246, 241, 231, 0.98); border-top: 1px solid var(--line);
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out), visibility var(--sc-d-base);
+  pointer-events: none;
+}
 .nav__mobile a { font-size: 0.92rem; letter-spacing: 0.03em; color: var(--ink); }
-.nav__mobile.is-open { display: flex; }
+.nav__mobile.is-open {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+}
 
 /* ==========================================================================
    ACT 1 · RECOGNITION — hero, pin. The first object, already in view.
@@ -338,8 +382,10 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
 .fr-range-rail__note p { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; color: var(--black); }
 .fr-range-rail__note a { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: var(--sc-3); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--line-strong); padding-bottom: 2px; transition: border-color var(--sc-d-base) ease; }
 .fr-range-rail__note a:hover { border-color: var(--black); }
-.fr-cat-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
-.fr-cat-card:hover img { transform: scale(1.07); }
+.fr-cat-card img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--sc-d-slow) var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .fr-cat-card:hover img { transform: scale(1.07); }
+}
 .fr-cat-card__label { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem 1rem; background: linear-gradient(0deg, rgba(23,20,15,0.78), transparent); color: var(--paper); }
 .fr-cat-card__label h3 { color: var(--paper); font-size: 1.05rem; margin-bottom: 0.2rem; }
 .fr-cat-card__label p { font-size: 0.74rem; color: rgba(255,253,248,0.78); margin: 0; }
@@ -349,14 +395,42 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
 
 .shop { padding: var(--sc-9) 0 var(--sc-10); }
 .shop__filters { max-width: var(--container); margin: 0 auto var(--sc-7); padding: 0 2rem; display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center; }
-.filter-btn { padding: 0.55rem 1.2rem; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--line-strong); border-radius: 20px; color: var(--ink); transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
+.filter-btn { padding: 0.55rem 1.2rem; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--line-strong); border-radius: 20px; color: var(--ink); transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform var(--sc-d-fast) var(--sc-ease-out); }
 .filter-btn.is-active, .filter-btn:hover { background: var(--black); color: var(--paper); border-color: var(--black); }
+.filter-btn:active { transform: scale(0.95); }
 
+/* Grid entrance: fresh nodes every render (cart.js does a full innerHTML
+   replace on load AND on every filter click), settled in via a JS class
+   toggle on the next two frames (see cart.js) rather than @starting-style:
+   tested against this app's embedded Chromium and the at-rule doesn't
+   degrade cleanly there, it leaves the cards stuck at opacity 0. Without
+   this the grid used to teleport in on first paint and again on every
+   filter change; now it fades and settles. Staggered by nth-child since the
+   item count varies with the filter and a JS-driven per-item delay isn't
+   worth it for a one-time entrance. */
 .product-grid { max-width: var(--container); margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem 1.4rem; }
-.product-card { display: flex; flex-direction: column; }
+.product-card {
+  display: flex; flex-direction: column;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity var(--sc-d-slow) var(--sc-ease-out), transform var(--sc-d-slow) var(--sc-ease-out);
+}
+.product-card.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .product-card:nth-child(1)  { transition-delay: 0ms; }
+  .product-card:nth-child(2)  { transition-delay: 40ms; }
+  .product-card:nth-child(3)  { transition-delay: 80ms; }
+  .product-card:nth-child(4)  { transition-delay: 120ms; }
+  .product-card:nth-child(5)  { transition-delay: 160ms; }
+  .product-card:nth-child(6)  { transition-delay: 200ms; }
+  .product-card:nth-child(7)  { transition-delay: 240ms; }
+  .product-card:nth-child(8)  { transition-delay: 280ms; }
+  .product-card:nth-child(n+9) { transition-delay: 320ms; }
+}
 .product-card__photo { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--cream); border-radius: 2px; }
-.product-card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
-.product-card:hover .product-card__photo img { transform: scale(1.05); }
+.product-card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--sc-d-base) var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover .product-card__photo img { transform: scale(1.05); }
+}
 .product-card__stock { position: absolute; top: 0.7rem; left: 0.7rem; font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.32rem 0.6rem; border-radius: 20px; background: var(--paper); color: var(--ink); z-index: 1; }
 .product-card__stock--in-stock { color: var(--stock-in); }
 .product-card__stock--low-stock { color: var(--stock-low); }
@@ -412,14 +486,19 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
 /* ==========================================================================
    CART DRAWER
    ========================================================================== */
-.cart-backdrop { position: fixed; inset: 0; background: rgba(23,20,15,0.4); opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease; z-index: 90; pointer-events: none; }
+.cart-backdrop { position: fixed; inset: 0; background: rgba(23,20,15,0.4); opacity: 0; visibility: hidden; transition: opacity var(--sc-d-slow) var(--sc-ease-out), visibility var(--sc-d-slow); z-index: 90; pointer-events: none; }
 .cart-backdrop.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
 
-.cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 92vw); background: var(--paper); z-index: 91; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.4s var(--ease); pointer-events: none; }
+/* The iOS-style drawer curve (already in scrollcraft.css) instead of the
+   generic ease-out: a panel sliding fully off-canvas reads better with a
+   touch of overshoot-free deceleration than the UI default. */
+.cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 92vw); background: var(--paper); z-index: 91; display: flex; flex-direction: column; transform: translateX(100%); transition: transform var(--sc-d-slow) var(--sc-ease-drawer); pointer-events: none; }
 .cart-drawer.is-open { transform: translateX(0); pointer-events: auto; }
 
 .cart-drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 1.6rem 1.6rem 1.2rem; border-bottom: 1px solid var(--line); }
 .cart-drawer__head h2 { font-size: 1.3rem; }
+.cart-drawer__head button, .chat-panel__head button { transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+.cart-drawer__head button:active, .chat-panel__head button:active { transform: scale(0.88); }
 .cart-drawer__body { flex: 1; overflow-y: auto; padding: 1rem 1.6rem; }
 .cart-empty { color: var(--stone); font-size: 0.9rem; padding: 2rem 0; text-align: center; }
 
@@ -429,9 +508,12 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
 .cart-item__name { font-size: 0.86rem; font-weight: 500; }
 .cart-item__size, .cart-item__price { font-size: 0.76rem; color: var(--stone); }
 .cart-item__qty { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; }
-.cart-item__qty-btn { width: 22px; height: 22px; border: 1px solid var(--line-strong); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.cart-item__remove { color: var(--stone); padding: 4px; }
-.cart-item__remove:hover { color: var(--black); }
+.cart-item__qty-btn { width: 22px; height: 22px; border: 1px solid var(--line-strong); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+.cart-item__qty-btn:active { transform: scale(0.85); }
+.cart-item__remove { color: var(--stone); padding: 4px; transition: color var(--sc-d-base) ease; }
+@media (hover: hover) and (pointer: fine) {
+  .cart-item__remove:hover { color: var(--black); }
+}
 
 .cart-drawer__footer { border-top: 1px solid var(--line); padding: 1.4rem 1.6rem 1.8rem; }
 .cart-drawer__subtotal { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
@@ -442,18 +524,28 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
    CHAT WIDGET
    ========================================================================== */
 .chat-widget { position: fixed; bottom: 1.6rem; right: 1.6rem; z-index: 80; pointer-events: none; }
-.chat-fab { pointer-events: auto; width: 54px; height: 54px; border-radius: 50%; background: var(--black); color: var(--paper); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 22px rgba(23,20,15,0.28); transition: transform 0.3s var(--ease); }
-.chat-fab:hover { transform: scale(1.06); }
-.chat-fab:active { transform: scale(0.97); }
+.chat-fab { pointer-events: auto; width: 54px; height: 54px; border-radius: 50%; background: var(--black); color: var(--paper); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 22px rgba(23,20,15,0.28); transition: transform var(--sc-d-base) var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .chat-fab:hover { transform: scale(1.06); }
+}
+.chat-fab:active { transform: scale(0.94); transition-duration: var(--sc-d-fast); }
 
-.chat-panel { pointer-events: auto; position: absolute; bottom: 68px; right: 0; width: min(340px, 88vw); height: 460px; background: var(--paper); border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 20px 50px rgba(23,20,15,0.18); display: flex; flex-direction: column; opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; }
-.chat-widget.is-open .chat-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+.chat-panel { pointer-events: auto; position: absolute; bottom: 68px; right: 0; width: min(340px, 88vw); height: 460px; background: var(--paper); border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 20px 50px rgba(23,20,15,0.18); display: flex; flex-direction: column; opacity: 0; visibility: hidden; transform: translateY(12px) scale(0.97); transform-origin: bottom right; transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out), visibility var(--sc-d-base); }
+.chat-widget.is-open .chat-panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
 
 .chat-panel__head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 1.05rem; }
 .chat-panel__head button { color: var(--stone); }
 .chat-panel__messages { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.7rem; }
 
-.chat-msg { max-width: 84%; padding: 0.6rem 0.85rem; border-radius: 10px; font-size: 0.86rem; line-height: 1.45; }
+/* Each bubble is a freshly created element (chat.js appendChild). Settled in
+   via a JS class toggle (see chat.js settleIn) rather than @starting-style,
+   for the same reason as the product grid above. */
+.chat-msg {
+  max-width: 84%; padding: 0.6rem 0.85rem; border-radius: 10px; font-size: 0.86rem; line-height: 1.45;
+  opacity: 0; transform: translateY(6px) scale(0.97);
+  transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out);
+}
+.chat-msg.is-in { opacity: 1; transform: none; }
 .chat-msg--assistant { align-self: flex-start; background: var(--cream); color: var(--ink); border-bottom-left-radius: 3px; }
 .chat-msg--user { align-self: flex-end; background: var(--black); color: var(--paper); border-bottom-right-radius: 3px; }
 .chat-msg--error { align-self: flex-start; background: #f3e2e2; color: #7a2f2f; }
@@ -471,8 +563,9 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
 .chat-form { display: flex; gap: 0.5rem; padding: 0.8rem 1rem; border-top: 1px solid var(--line); }
 .chat-form input { flex: 1; border: 1px solid var(--line-strong); border-radius: 20px; padding: 0.55rem 0.9rem; font-family: inherit; font-size: 0.84rem; background: var(--bone); color: var(--ink); }
 .chat-form input:focus { outline: none; border-color: var(--black); }
-.chat-form button { width: 36px; height: 36px; border-radius: 50%; background: var(--black); color: var(--paper); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chat-form button { width: 36px; height: 36px; border-radius: 50%; background: var(--black); color: var(--paper); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform var(--sc-d-fast) var(--sc-ease-out); }
 .chat-form button:disabled { opacity: 0.5; }
+.chat-form button:not(:disabled):active { transform: scale(0.9); }
 
 /* ==========================================================================
    RESPONSIVE
@@ -515,6 +608,22 @@ h1, h2, h3 { font-weight: 500; color: var(--black); margin: 0; }
   .chat-panel { width: 92vw; right: -1rem; }
 }
 
-@media (hover: none) {
+/* ==========================================================================
+   REDUCED MOTION — fewer and gentler, not zero. scrollcraft.css already
+   handles its own devices (cues, pan, parallax, reveal, spotlight); this
+   covers FRØKEN's own components. Every rule above that moves something
+   keeps its state change (a drawer still opens, a card still confirms an
+   add) and drops the position/scale animation that got it there.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .cart-drawer, .chat-panel, .nav__mobile, .product-card,
+  .fr-cat-card img, .product-card__photo img,
+  .chat-msg, .cart-count, .is-added {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .cart-drawer.is-open, .chat-panel { transform: none; }
+  .chat-widget.is-open .chat-panel { transform: none; }
+  .product-card { transform: none; }
   .fr-cat-card:hover img, .product-card:hover .product-card__photo img { transform: none; }
 }

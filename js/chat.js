@@ -31,11 +31,22 @@
 
   function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
+  // Two rAFs, not one: the browser needs a full frame painted at the
+  // pre-transition state before the class change is what actually triggers
+  // a transition, rather than possibly landing in the same frame and being
+  // skipped. Cheaper and more broadly reliable here than @starting-style.
+  function settleIn(el) {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { el.classList.add('is-in'); });
+    });
+  }
+
   function addMessage(role, text) {
     var bubble = document.createElement('div');
     bubble.className = 'chat-msg chat-msg--' + role;
     bubble.textContent = text;
     messagesEl.appendChild(bubble);
+    settleIn(bubble);
     scrollToBottom();
     return bubble;
   }
@@ -45,6 +56,7 @@
     bubble.className = 'chat-msg chat-msg--assistant chat-msg--typing';
     bubble.innerHTML = '<i></i><i></i><i></i>';
     messagesEl.appendChild(bubble);
+    settleIn(bubble);
     scrollToBottom();
     return bubble;
   }

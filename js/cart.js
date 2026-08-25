@@ -205,8 +205,16 @@
   function updateCartCount() {
     var count = cart.reduce(function (sum, item) { return sum + item.qty; }, 0);
     document.querySelectorAll('.cart-count').forEach(function (el) {
+      var prev = parseInt(el.textContent, 10) || 0;
       el.textContent = count;
       el.classList.toggle('is-visible', count > 0);
+      // Bump only on an increase, not on initial render or removals, so the
+      // badge confirms "that landed" instead of twitching on every count.
+      if (count > prev) {
+        el.classList.remove('is-bump');
+        void el.offsetWidth;
+        el.classList.add('is-bump');
+      }
     });
   }
 
@@ -238,6 +246,16 @@
         '</article>'
       );
     }).join('');
+
+    // Two rAFs: the grid needs a frame painted at opacity:0 before adding
+    // is-in is what actually triggers the transition, rather than possibly
+    // landing in the same frame and being skipped straight to the end state.
+    var cards = grid.querySelectorAll('.product-card');
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        cards.forEach(function (el) { el.classList.add('is-in'); });
+      });
+    });
 
     grid.querySelectorAll('.product-card__add').forEach(function (btn) {
       btn.addEventListener('click', function () {
